@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
   <head>
     <title>TheNetNinja Angular Playlist</title>
     <link href="content/css/styles.css" rel="stylesheet" type="text/css" />
+    <script src="app\lib\angular.min.js"></script>
+    <script src="app\app.js"></script>
   </head>
   <body>
-
+    <header ng-include="'header.html'"></header>
+    <div class="content">
+      <div ng-controller="mainController">
+        <button ng-click="order='make'">Order by make</button>
+        <button ng-click="order='model'">Order by model</button>
+        <input
+          type="text"
+          ng-model="search"
+          placeholder="Search for a car..."
+        />
+        <ul>
+          <li ng-repeat="car in cars | orderBy: order | filter: search">
+            <h3>
+              {{car.make}} {{car.model}} ({{car.year}})
+              <span ng-show="!car.available">&nbsp;- Sold</span>
+            </h3>
+            <div class="remove" ng-click="removeCar(car)">x</div>
+            <span> {{car.price | currency: 'R'}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>
